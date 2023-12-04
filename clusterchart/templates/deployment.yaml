@@ -3,17 +3,15 @@ kind: Deployment
 metadata:
   name: {{ .Values.name }}
   namespace: {{ .Values.namespace }}
-  labels:
-    app: apps.deployment-{{ .Values.namespace }}-{{ .Values.name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: apps.deployment-{{ .Values.namespace }}-{{ .Values.name }}
+      workload.user.cattle.io/workloadselector: apps.deployment-default-hw3extra-deploy
   template:
     metadata:
       labels:
-        app: apps.deployment-{{ .Values.namespace }}-{{ .Values.name }}
+        workload.user.cattle.io/workloadselector: apps.deployment-default-hw3extra-deploy
       namespace: {{ .Values.namespace }}
     spec:
       containers:

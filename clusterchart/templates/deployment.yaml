@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: apps.deployment-{{ .Values.namespace }}-{{ .Values.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: apps.deployment-{{ .Values.namespace }}-{{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: apps.deployment-{{ .Values.namespace }}-{{ .Values.name }}
+      namespace: {{ .Values.namespace }}
+    spec:
+      containers:
+      - name: {{ .Values.containers.name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: {{ .Values.service.name }}
+          protocol: {{ .Values.service.protocol }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
